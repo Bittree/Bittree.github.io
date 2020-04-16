@@ -7,10 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Bittree. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 12 Apr 2020 14:15:23 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 16 Apr 2020 18:31:00 +0800</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Morris遍历</title>
+      <link>/post/morris_traversal/</link>
+      <pubDate>Thu, 16 Apr 2020 18:31:00 +0800</pubDate>
+      
+      <guid>/post/morris_traversal/</guid>
+      <description>二叉树的遍历大家都很熟悉了，一般是递归和迭代两种方法，区别是递归是把有效状态保存在语言的栈中，迭代是有效状态保存在堆上(容器栈或者是队列)。
+非递归的空间复杂度更高，也就是需要更多的内存，代码也更多，不过可以避免树的深度比较大时递归可能会出现的栈溢出的问题。
+但是迭代的方法在中序和后序遍历的时候都需要标记当前节点的子节点的访问情况，主要的方式有：
+ 节点中就包含字段标识左孩子/右孩子是否访问过，如果访问过则访问当前节点之后退出； 把当前节点的孩子放入访问的序列容器之后，就从当前节点中删除指向该子节点的指针。  但是这两种方式一种是对节点的结构有要求，一种是在运行时破坏了树的结构，都不是完美的解决方案。有没有完美的解决方案呢？
+当然有，这就是Morris遍历,在这篇介绍中描述它是二叉树遍历的“神级” 方法。
+主要优点：
+  空间复杂度从O(N)降到了O(1)
+  时间复杂度不变，还是O(N)
+  遍历后树的结构不被破坏
+要使用O(1)空间进行遍历，最大的难点在于，遍历到子节点的时候怎样重新返回到父节点（假设节点中没有指向父节点的p指针），由于不能用栈作为辅助空间。为了解决这个问题，Morris方法用到了线索二叉树（threaded binary tree）的概念。在Morris方法中不需要为每个节点额外分配指针指向其前驱（predecessor）和后继节点（successor），只需要利用叶子节点中的左右空指针指向某种顺序遍历下的前驱节点或后继节点就可以了。
+  Morris遍历主要面向中序遍历，不过修改之后可以用作前序遍历和后序遍历。
+// 中序遍历 golang版本 func InorderTraversal(root *TreeNode) { cur := root var prev *TreeNode for cur != nil { if cur.Left == nil { fmt.Println(cur.Val) // 如果当前节点的左孩子为空，就访问当前节点并把当前节点设置为右孩子 cur = cur.Right }else{ // 如果当前节点有左孩子，就从当前节点左孩子开始，不断往下找到最右边的右孩子，就是当前节点的前驱节点，这是二叉树中序遍历的特点 prev = cur.Left for prev.Right != nil &amp;amp;&amp;amp; prev.Right != cur { prev = prev.</description>
+    </item>
     
     <item>
       <title>排行榜的数据结构和分析</title>
